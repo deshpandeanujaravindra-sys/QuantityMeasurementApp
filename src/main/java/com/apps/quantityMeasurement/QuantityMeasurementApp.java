@@ -3,13 +3,10 @@ package com.apps.quantityMeasurement;
 public class QuantityMeasurementApp {
 
     public static class Feet {
-
         private final double value;
-
         public Feet(double value) {
             this.value = value;
         }
-
         public double getValue() {
             return value;
         }
@@ -71,15 +68,41 @@ public class QuantityMeasurementApp {
         Double.compare(feet.toInches(),feet1.toInches());
         Double.compare(feet.toInches(),feet1.toInches());
 
-        System.out.println(compareInchesAndFeet(1.0, 24.0)+"nowwwww");
+        System.out.println(compareInchesAndFeet(2.0, 24.0)+"nowwwww");
+
+        Length lengthInFeet = new Length(2, Length.LengthUnit.FEET);
+        Length lengthInInches = new Length(24, Length.LengthUnit.INCHES);
+
+        System.out.println(lengthInFeet.equals(lengthInInches)+"Thissss");
+        demonstrateFeetEqulity();
+        demonstrateInchesEqulity();
+        demonstrateFeetAndInchesEqulity();
     }
 
     static boolean compareInchesAndFeet(double feetValue, double inchValue) {
         Feet feet = new Feet(feetValue);
         Inches inches = new Inches(inchValue);
         return Double.compare(feet.toInches(), inches.toInches()) == 0;
-
     }
+
+    public static void demonstrateFeetEqulity(){
+        Length firstLengthInFeet = new Length(2, Length.LengthUnit.FEET);
+        Length secondLengthInFeet = new Length(2, Length.LengthUnit.FEET);
+        System.out.println("Lengths in feet are :(true for equal, false for not equal)"+firstLengthInFeet.equals(secondLengthInFeet));
+    }
+
+    public static void demonstrateInchesEqulity(){
+        Length firstLengthInFeet = new Length(2, Length.LengthUnit.INCHES);
+        Length secondLengthInFeet = new Length(2, Length.LengthUnit.INCHES);
+        System.out.println("Lengths in Inches are :(true for equal, false for not equal)"+firstLengthInFeet.equals(secondLengthInFeet));
+    }
+
+    public static void demonstrateFeetAndInchesEqulity(){
+        Length firstLengthInFeet = new Length(2, Length.LengthUnit.FEET);
+        Length secondLengthInFeet = new Length(24, Length.LengthUnit.INCHES);
+        System.out.println("Lengths in feet and Inches are :(true for equal, false for not equal)"+firstLengthInFeet.equals(secondLengthInFeet));
+    }
+
 
 }
 
