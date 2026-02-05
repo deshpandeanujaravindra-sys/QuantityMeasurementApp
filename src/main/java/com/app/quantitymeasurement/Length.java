@@ -72,9 +72,11 @@ public class Length {
     }
 
 
-    public static double add(Length length, Length length2, LengthUnit targetUnit) {
+    public static Length add(Length length, Length length2, LengthUnit targetUnit) {
+        if (length2 ==null) throw new IllegalArgumentException();
         double firstConvertedValue = convert(length.value, length.unit, targetUnit);
         double secondConvertedValue = convert(length2.value, length2.unit, targetUnit);
-        return (firstConvertedValue + secondConvertedValue);
+        return new Length((firstConvertedValue + secondConvertedValue),targetUnit);
+      //  return (firstConvertedValue + secondConvertedValue);
     }
 }
