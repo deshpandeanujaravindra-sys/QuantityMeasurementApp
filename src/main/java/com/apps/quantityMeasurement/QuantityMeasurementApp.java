@@ -5,7 +5,7 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        additionDemonstration(new Length(72, Length.LengthUnit.INCHES),new Length(6, Length.LengthUnit.FEET), Length.LengthUnit.YARDS);
+        additionDemonstration(new Length(1, Length.LengthUnit.FEET),new Length(12, Length.LengthUnit.INCHES), Length.LengthUnit.FEET);
 
     }
 
