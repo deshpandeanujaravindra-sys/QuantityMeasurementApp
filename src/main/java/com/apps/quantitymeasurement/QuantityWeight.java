@@ -3,7 +3,7 @@ package com.apps.quantitymeasurement;
 
 import java.util.Objects;
 
-public class QuantityWeight {
+public class QuantityWeight  {
 
     private final double value;
     private final WeightUnit unit;
