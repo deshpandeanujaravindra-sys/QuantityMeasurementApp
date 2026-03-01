@@ -1,3 +1,5 @@
+import com.apps.quantitymeasurement.LengthUnit;
+import com.apps.quantitymeasurement.Quantity;
 import com.apps.quantitymeasurement.QuantityWeight;
 import com.apps.quantitymeasurement.WeightUnit;
 import org.junit.Test;
@@ -196,5 +198,68 @@ public class QuantityMeasurementAppTest {
     public void testAddition_NullTargetUnit() {
         QuantityWeight q = new QuantityWeight(1, WeightUnit.KILOGRAM);
         q.add(new QuantityWeight(1, WeightUnit.KILOGRAM), (QuantityWeight) null);
+    }
+
+    @Test
+    public void testGenericLengthTypeSafety() {
+        Quantity<LengthUnit> length = new Quantity<>(5, LengthUnit.FEET);
+        assertTrue(length.getUnit() instanceof LengthUnit);
+    }
+
+    @Test
+    public void testGenericWeightTypeSafety() {
+        Quantity<WeightUnit> weight = new Quantity<>(5, WeightUnit.KILOGRAM);
+        assertTrue(weight.getUnit() instanceof WeightUnit);
+    }
+
+    @Test
+    public void testDifferentCategoryEqualityShouldFail() {
+        Quantity<LengthUnit> length = new Quantity<>(5, LengthUnit.FEET);
+        Quantity<WeightUnit> weight = new Quantity<>(5, WeightUnit.KILOGRAM);
+        assertFalse(length.equals(weight));
+    }
+
+    @Test
+    public void testAdditionMaintainsGenericTypeLength() {
+        Quantity<LengthUnit> result =
+                new Quantity<>(2, LengthUnit.FEET)
+                        .add(new Quantity<>(3, LengthUnit.FEET),LengthUnit.FEET);
+
+        assertTrue(result.getUnit() instanceof LengthUnit);
+    }
+
+    @Test
+    public void testAdditionMaintainsGenericTypeWeight() {
+        Quantity<WeightUnit> result =
+                new Quantity<>(1, WeightUnit.KILOGRAM)
+                        .add(new Quantity<>(1, WeightUnit.KILOGRAM),WeightUnit.KILOGRAM);
+
+        assertTrue(result.getUnit() instanceof WeightUnit);
+    }
+
+    @Test
+    public void testInterfaceBaseConversionLength() {
+        Quantity<LengthUnit> length = new Quantity<>(1, LengthUnit.YARDS);
+        assertEquals(36, length.toBaseUnit(), EPSILON);
+    }
+
+    @Test
+    public void testInterfaceBaseConversionWeight() {
+        Quantity<WeightUnit> weight = new Quantity<>(1, WeightUnit.KILOGRAM);
+         assertEquals(1, weight.toBaseUnit(), EPSILON);
+    }
+
+    @Test
+    public void testGenericHashCodeConsistencyLength() {
+        Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+        assertEquals(q1.hashCode(), q2.hashCode());
+    }
+
+    @Test
+    public void testGenericHashCodeConsistencyWeight() {
+        Quantity<WeightUnit> q1 = new Quantity<>(1, WeightUnit.KILOGRAM);
+        Quantity<WeightUnit> q2 = new Quantity<>(2.20462, WeightUnit.POUND);
+        assertEquals(q1.hashCode(), q2.hashCode());
     }
 }

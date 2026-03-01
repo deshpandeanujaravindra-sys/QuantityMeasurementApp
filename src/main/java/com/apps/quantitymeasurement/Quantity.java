@@ -29,7 +29,9 @@ public class Quantity<U extends IMeasureable> {
         return unit;
     }
 
-    // Equality
+public double toBaseUnit(){
+        return unit.convertToBaseUnit(value);
+}
     @Override
     public boolean equals(Object obj) {
 
