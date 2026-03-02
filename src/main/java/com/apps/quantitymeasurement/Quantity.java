@@ -82,6 +82,21 @@ public double toBaseUnit(){
         return new Quantity<>(finalValue, targetUnit);
     }
 
+    public Quantity<U> add(Quantity<U> other) {
+
+        if (other == null )
+            throw new IllegalArgumentException("Arguments cannot be null");
+
+        double base1 = unit.convertToBaseUnit(value);
+        double base2 = other.unit.convertToBaseUnit(other.value);
+
+        double sum = base1 + base2;
+
+        double finalValue = other.getUnit().convertFromBaseUnit(sum);
+
+        return new Quantity<>(finalValue, other.getUnit());
+    }
+
     @Override
     public String toString() {
         return value + " " + unit;

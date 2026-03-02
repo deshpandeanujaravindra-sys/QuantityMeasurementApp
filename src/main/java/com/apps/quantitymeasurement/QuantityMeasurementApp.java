@@ -93,6 +93,94 @@ public class QuantityMeasurementApp{
                 new Quantity<>(1.0, LengthUnit.FEET),
                 new Quantity<>(1.0, WeightUnit.KILOGRAM)
         );
+
+        Quantity<VolumeUnit> litre = new Quantity<>(1, VolumeUnit.LITRE);
+        Quantity<VolumeUnit> ml = new Quantity<>(1000, VolumeUnit.MILLILITRE);
+        Quantity<VolumeUnit> gallon = new Quantity<>(1, VolumeUnit.GALLON);
+
+        System.out.println("1 L == 1000 ML : " + litre.equals(ml));
+        System.out.println("1 Gallon == 3.78541 L : " +
+                gallon.equals(new Quantity<>(3.78541, VolumeUnit.LITRE)));
+
+        Quantity<VolumeUnit> result = litre.add(gallon,litre.getUnit());
+        System.out.println("1 L + 1 Gallon = " + result);
+
+        System.out.println("------ Unit Conversion ------");
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.LITRE)
+                        .convert(VolumeUnit.MILLILITRE));
+
+        System.out.println(
+                new Quantity<>(2.0, VolumeUnit.GALLON)
+                        .convert(VolumeUnit.LITRE));
+
+        System.out.println(
+                new Quantity<>(500.0, VolumeUnit.MILLILITRE)
+                        .convert(VolumeUnit.GALLON));
+
+        System.out.println(
+                new Quantity<>(0.0, VolumeUnit.LITRE)
+                        .convert(VolumeUnit.MILLILITRE));
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.LITRE)
+                        .convert(VolumeUnit.LITRE));
+
+
+        System.out.println("\nAddition (Implicit Target Unit)");
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.LITRE)
+                        .add(new Quantity<>(2.0, VolumeUnit.LITRE)));
+
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.LITRE)
+                        .add(new Quantity<>(1000.0, VolumeUnit.MILLILITRE)));
+
+        System.out.println(
+                new Quantity<>(500.0, VolumeUnit.MILLILITRE)
+                        .add(new Quantity<>(0.5, VolumeUnit.LITRE)));
+
+        System.out.println(
+                new Quantity<>(2.0, VolumeUnit.GALLON)
+                        .add(new Quantity<>(3.78541, VolumeUnit.LITRE)));
+
+
+        System.out.println("\n Addition (Explicit Target Unit)");
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.LITRE)
+                        .add(new Quantity<>(1000.0, VolumeUnit.MILLILITRE),
+                                VolumeUnit.MILLILITRE));
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.GALLON)
+                        .add(new Quantity<>(3.78541, VolumeUnit.LITRE),
+                                VolumeUnit.GALLON));
+
+        System.out.println(
+                new Quantity<>(500.0, VolumeUnit.MILLILITRE)
+                        .add(new Quantity<>(1.0, VolumeUnit.LITRE),
+                                VolumeUnit.GALLON));
+
+        System.out.println(
+                new Quantity<>(2.0, VolumeUnit.LITRE)
+                        .add(new Quantity<>(4.0, VolumeUnit.GALLON),
+                                VolumeUnit.LITRE));
+
+
+        System.out.println("\nCategory Incompatibility ");
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.LITRE)
+                        .equals(new Quantity<>(1.0, LengthUnit.FEET)));
+
+        System.out.println(
+                new Quantity<>(1.0, VolumeUnit.LITRE)
+                        .equals(new Quantity<>(1.0, WeightUnit.KILOGRAM)));
+
     }
 
 
@@ -102,4 +190,5 @@ public class QuantityMeasurementApp{
 
         System.out.println("Equal? " + q1.equals(q2));
     }
+
 }
