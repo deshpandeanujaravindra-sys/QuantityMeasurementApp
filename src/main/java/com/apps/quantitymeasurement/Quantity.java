@@ -97,8 +97,57 @@ public double toBaseUnit(){
         return new Quantity<>(finalValue, other.getUnit());
     }
 
+    public Quantity<U> subtract(Quantity<U> other) {
+        return subtract(other, this.unit);
+    }
+
+    public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
+        validateQuantity(other);
+        if (targetUnit == null)
+            throw new IllegalArgumentException("Target unit cannot be null");
+
+        double thisBase = unit.convertToBaseUnit(this.value);
+        double otherBase = other.unit.convertToBaseUnit(other.value);
+
+        double baseResult = thisBase - otherBase;
+
+        double converted = targetUnit.convertFromBaseUnit(baseResult);
+        double rounded = round(converted);
+
+        return new Quantity<>(rounded, targetUnit);
+    }
+
+    public double divide(Quantity<U> other) {
+        validateQuantity(other);
+
+        double thisBase = unit.convertToBaseUnit(this.value);
+        double otherBase = other.unit.convertToBaseUnit(other.value);
+
+        if (otherBase == 0.0)
+            throw new ArithmeticException("Division by zero");
+
+        double result = thisBase / otherBase;
+        return round(result);
+    }
+
+
+    private void validateQuantity(Quantity<U> other) {
+        if (other == null)
+            throw new IllegalArgumentException("Quantity cannot be null");
+
+        if (!Double.isFinite(other.value))
+            throw new IllegalArgumentException("Other value must be finite");
+
+        if (!unit.getClass().equals(other.unit.getClass()))
+            throw new IllegalArgumentException("Cross-category operation not allowed");
+    }
+
+    private double round(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
+
     @Override
     public String toString() {
-        return value + " " + unit;
+        return "Quantity(" + value + ", " + unit + ")";
     }
 }

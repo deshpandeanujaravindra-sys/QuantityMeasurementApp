@@ -387,4 +387,37 @@ public class QuantityMeasurementAppTest {
         assertFalse(volume.equals(weight));
     }
 
+    // 24. Ratio > 1.0
+    @Test
+  public   void testDivision_RatioGreaterThanOne() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(2.0, LengthUnit.FEET);
+
+        double result = q1.divide(q2);
+
+        assertEquals(5.0, result, 0.01);
+    }
+
+    // 25. Ratio < 1.0
+    @Test
+    public void testDivision_RatioLessThanOne() {
+        Quantity<LengthUnit> q1 = new Quantity<>(5.0, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(10.0, LengthUnit.FEET);
+
+        double result = q1.divide(q2);
+
+        assertEquals(0.5, result, 0.01);
+    }
+
+    // 26. Ratio == 1.0
+    @Test
+    public void testDivision_RatioEqualToOne() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(10.0, LengthUnit.FEET);
+
+        double result = q1.divide(q2);
+
+        assertEquals(1.0, result, 0.01);
+    }
+
 }
