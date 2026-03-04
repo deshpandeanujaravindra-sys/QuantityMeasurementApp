@@ -5,264 +5,100 @@ public class QuantityMeasurementApp{
     public static void main(String[] args) {
 
 
-        QuantityWeight quantityWeight = new QuantityWeight(2,WeightUnit.KILOGRAM);
-        QuantityWeight secondquantityWeight = new QuantityWeight(2000,WeightUnit.GRAM);
-        System.out.println(quantityWeight.equals(secondquantityWeight));
-        System.out.println(new QuantityWeight(1,WeightUnit.KILOGRAM).equals(new QuantityWeight(1,WeightUnit.KILOGRAM)));
-        System.out.println(new QuantityWeight(1,WeightUnit.KILOGRAM).equals(new QuantityWeight(1000,WeightUnit.GRAM)));
-        System.out.println(new QuantityWeight(2,WeightUnit.POUND).equals(new QuantityWeight(2,WeightUnit.POUND)));
-        System.out.println(new QuantityWeight(1,WeightUnit.KILOGRAM).equals(new QuantityWeight(2.20462,WeightUnit.POUND)));
-        System.out.println(new QuantityWeight(500,WeightUnit.GRAM).equals(new QuantityWeight(0.5,WeightUnit.KILOGRAM)));
-        System.out.println(new QuantityWeight(1,WeightUnit.POUND).equals(new QuantityWeight(453.592,WeightUnit.GRAM)));
-
-
-        System.out.println(QuantityWeight.add(new QuantityWeight(1,WeightUnit.KILOGRAM),(new QuantityWeight(1000,WeightUnit.GRAM)),WeightUnit.GRAM).toString());
-        System.out.println(QuantityWeight.add(new QuantityWeight(1,WeightUnit.POUND),(new QuantityWeight(453.592,WeightUnit.GRAM)),WeightUnit.POUND).toString());
-        System.out.println(QuantityWeight.add(new QuantityWeight(2,WeightUnit.KILOGRAM),(new QuantityWeight(4,WeightUnit.POUND)),WeightUnit.KILOGRAM).toString());
-
-        System.out.println(QuantityWeight.convert(new QuantityWeight(1,WeightUnit.KILOGRAM),WeightUnit.GRAM));
-        System.out.println(QuantityWeight.convert(new QuantityWeight(2,WeightUnit.POUND),WeightUnit.KILOGRAM));
-        System.out.println(QuantityWeight.convert(new QuantityWeight(500,WeightUnit.GRAM),WeightUnit.POUND));
-        System.out.println(QuantityWeight.convert(new QuantityWeight(0,WeightUnit.KILOGRAM),WeightUnit.GRAM));
-
-        System.out.println(QuantityWeight.add(new QuantityWeight(1,WeightUnit.KILOGRAM),(new QuantityWeight(2,WeightUnit.KILOGRAM))).toString());
-        System.out.println(QuantityWeight.add(new QuantityWeight(1,WeightUnit.KILOGRAM),(new QuantityWeight(1000,WeightUnit.GRAM))).toString());
-        System.out.println(QuantityWeight.add(new QuantityWeight(500,WeightUnit.GRAM),(new QuantityWeight(0.5,WeightUnit.KILOGRAM))).toString());
-
-
-        System.out.println("Length Equality:");
-        System.out.println(
-                new Quantity<>(1.0, LengthUnit.FEET)
-                        .equals(new Quantity<>(12.0, LengthUnit.INCHES))
-        );
+        Quantity<LengthUnit> feet10 =
+                new Quantity<>(10.0, LengthUnit.FEET);
 
-        System.out.println("\nLength Conversion:");
-        System.out.println(
-                new Quantity<>(1.0, LengthUnit.FEET)
-                        .convert(LengthUnit.INCHES)
-        );
+        Quantity<LengthUnit> inch24 =
+                new Quantity<>(24.0, LengthUnit.INCHES);
 
-        System.out.println("\nLength Addition:");
-        System.out.println(
-                new Quantity<>(1.0, LengthUnit.FEET)
-                        .add(new Quantity<>(12.0, LengthUnit.INCHES),
-                                LengthUnit.FEET)
-        );
+        Quantity<LengthUnit> feet2 =
+                new Quantity<>(2.0, LengthUnit.FEET);
 
+        Quantity<LengthUnit> feet5 =
+                new Quantity<>(5.0, LengthUnit.FEET);
 
-        System.out.println("\nWeight Equality:");
-        System.out.println(
-                new Quantity<>(1.0, WeightUnit.KILOGRAM)
-                        .equals(new Quantity<>(1000.0, WeightUnit.GRAM))
-        );
+        Quantity<LengthUnit> feet10b =
+                new Quantity<>(10.0, LengthUnit.FEET);
 
-        System.out.println("\nWeight Conversion:");
-        System.out.println(
-                new Quantity<>(1.0, WeightUnit.KILOGRAM)
-                        .convert(WeightUnit.GRAM)
-        );
+        // ADD
+        System.out.println("10 ft + 24 in = " +
+                feet10.add(inch24));
 
-        System.out.println("\nWeight Addition:");
-        System.out.println(
-                new Quantity<>(1.0, WeightUnit.KILOGRAM)
-                        .add(new Quantity<>(1000.0, WeightUnit.GRAM),
-                                WeightUnit.KILOGRAM)
-        );
+        System.out.println("10 ft + 24 in (in YARD) = " +
+                feet10.add(inch24, LengthUnit.YARDS));
 
+        // SUBTRACT
+        System.out.println("10 ft - 24 in = " +
+                feet10.subtract(inch24));
 
-        System.out.println("\nCross Category Equality:");
-        System.out.println(
-                new Quantity<>(1.0, LengthUnit.FEET)
-                        .equals(new Quantity<>(1.0, WeightUnit.KILOGRAM))
-        );
+        // DIVISION CASES
+        System.out.println("10 ft / 2 ft = " +
+                feet10.divide(feet2) + "  (Ratio > 1)");
 
+        System.out.println("5 ft / 10 ft = " +
+                feet5.divide(feet10) + "  (Ratio < 1)");
 
-        System.out.println("\nGeneric Demonstration:");
+        System.out.println("10 ft / 10 ft = " +
+                feet10.divide(feet10b) + "  (Ratio = 1)");
 
-        demonstrateEquality(
-                new Quantity<>(2.0, LengthUnit.FEET),
-                new Quantity<>(24.0, LengthUnit.INCHES)
-        );
+        // EQUALITY
+        Quantity<LengthUnit> oneFoot =
+                new Quantity<>(1.0, LengthUnit.FEET);
 
-        demonstrateEquality(
-                new Quantity<>(2.0, WeightUnit.KILOGRAM),
-                new Quantity<>(2000.0, WeightUnit.GRAM)
-        );
+        Quantity<LengthUnit> twelveInch =
+                new Quantity<>(12.0, LengthUnit.INCHES);
 
-        demonstrateEquality(
-                new Quantity<>(1.0, LengthUnit.FEET),
-                new Quantity<>(1.0, WeightUnit.KILOGRAM)
-        );
+        System.out.println("1 ft equals 12 in ? " +
+                oneFoot.equals(twelveInch));
 
-        Quantity<VolumeUnit> litre = new Quantity<>(1, VolumeUnit.LITRE);
-        Quantity<VolumeUnit> ml = new Quantity<>(1000, VolumeUnit.MILLILITRE);
-        Quantity<VolumeUnit> gallon = new Quantity<>(1, VolumeUnit.GALLON);
 
-        System.out.println("1 L == 1000 ML : " + litre.equals(ml));
-        System.out.println("1 Gallon == 3.78541 L : " +
-                gallon.equals(new Quantity<>(3.78541, VolumeUnit.LITRE)));
+        /*
+           VOLUME OPERATIONS
+            */
+        System.out.println("\n---- VOLUME OPERATIONS ----");
 
-        Quantity<VolumeUnit> result = litre.add(gallon,litre.getUnit());
-        System.out.println("1 L + 1 Gallon = " + result);
+        Quantity<VolumeUnit> litre1 =
+                new Quantity<>(1.0, VolumeUnit.LITRE);
 
-        System.out.println("------ Unit Conversion ------");
+        Quantity<VolumeUnit> ml1000 =
+                new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
 
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.LITRE)
-                        .convert(VolumeUnit.MILLILITRE));
+        Quantity<VolumeUnit> gallon1 =
+                new Quantity<>(1.0, VolumeUnit.GALLON);
 
-        System.out.println(
-                new Quantity<>(2.0, VolumeUnit.GALLON)
-                        .convert(VolumeUnit.LITRE));
+        System.out.println("1 L equals 1000 mL ? " +
+                litre1.equals(ml1000));
 
-        System.out.println(
-                new Quantity<>(500.0, VolumeUnit.MILLILITRE)
-                        .convert(VolumeUnit.GALLON));
+        System.out.println("1 gallon in litre = " +
+                gallon1.add(new Quantity<>(0, VolumeUnit.LITRE)));
 
-        System.out.println(
-                new Quantity<>(0.0, VolumeUnit.LITRE)
-                        .convert(VolumeUnit.MILLILITRE));
 
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.LITRE)
-                        .convert(VolumeUnit.LITRE));
 
+        System.out.println("\n---- WEIGHT OPERATIONS ----");
 
-        System.out.println("\nAddition (Implicit Target Unit)");
+        Quantity<WeightUnit> kg1 =
+                new Quantity<>(1.0, WeightUnit.KILOGRAM);
 
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.LITRE)
-                        .add(new Quantity<>(2.0, VolumeUnit.LITRE)));
+        Quantity<WeightUnit> gm1000 =
+                new Quantity<>(1000.0, WeightUnit.GRAM);
 
+        System.out.println("1 kg equals 1000 gm ? " +
+                kg1.equals(gm1000));
 
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.LITRE)
-                        .add(new Quantity<>(1000.0, VolumeUnit.MILLILITRE)));
 
-        System.out.println(
-                new Quantity<>(500.0, VolumeUnit.MILLILITRE)
-                        .add(new Quantity<>(0.5, VolumeUnit.LITRE)));
+        System.out.println("\n---- EXCEPTION HANDLING ----");
 
-        System.out.println(
-                new Quantity<>(2.0, VolumeUnit.GALLON)
-                        .add(new Quantity<>(3.78541, VolumeUnit.LITRE)));
+        try {
+            feet10.divide(new Quantity<>(0.0, LengthUnit.FEET));
+        } catch (Exception e) {
+            System.out.println("Division by zero handled: " + e.getMessage());
+        }
 
-
-        System.out.println("\n Addition (Explicit Target Unit)");
-
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.LITRE)
-                        .add(new Quantity<>(1000.0, VolumeUnit.MILLILITRE),
-                                VolumeUnit.MILLILITRE));
-
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.GALLON)
-                        .add(new Quantity<>(3.78541, VolumeUnit.LITRE),
-                                VolumeUnit.GALLON));
-
-        System.out.println(
-                new Quantity<>(500.0, VolumeUnit.MILLILITRE)
-                        .add(new Quantity<>(1.0, VolumeUnit.LITRE),
-                                VolumeUnit.GALLON));
-
-        System.out.println(
-                new Quantity<>(2.0, VolumeUnit.LITRE)
-                        .add(new Quantity<>(4.0, VolumeUnit.GALLON),
-                                VolumeUnit.LITRE));
-
-
-        System.out.println("\nCategory Incompatibility ");
-
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.LITRE)
-                        .equals(new Quantity<>(1.0, LengthUnit.FEET)));
-
-        System.out.println(
-                new Quantity<>(1.0, VolumeUnit.LITRE)
-                        .equals(new Quantity<>(1.0, WeightUnit.KILOGRAM)));
-
-      //  -----------------------------------------------------------------------------
-        System.out.println(
-                new Quantity<>(10.0, LengthUnit.FEET)
-                        .subtract(new Quantity<>(6.0, LengthUnit.INCHES)));
-
-        System.out.println(
-                new Quantity<>(10.0, WeightUnit.KILOGRAM)
-                        .subtract(new Quantity<>(5000.0, WeightUnit.GRAM)));
-
-        System.out.println(
-                new Quantity<>(5.0, VolumeUnit.LITRE)
-                        .subtract(new Quantity<>(500.0, VolumeUnit.MILLILITRE)));
-
-        System.out.println(
-                new Quantity<>(10.0, LengthUnit.FEET)
-                        .subtract(new Quantity<>(6.0, LengthUnit.INCHES),
-                                LengthUnit.INCHES));
-
-        System.out.println(
-                new Quantity<>(5.0, VolumeUnit.LITRE)
-                        .subtract(new Quantity<>(2.0, VolumeUnit.LITRE),
-                                VolumeUnit.MILLILITRE));
-
-
-        System.out.println(
-                new Quantity<>(10.0, WeightUnit.KILOGRAM)
-                        .subtract(new Quantity<>(5000.0, WeightUnit.GRAM),
-                                WeightUnit.GRAM));
-
-        System.out.println(
-                new Quantity<>(5.0, LengthUnit.FEET)
-                        .subtract(new Quantity<>(10, LengthUnit.FEET)));
-
-        System.out.println(
-                new Quantity<>(2.0, WeightUnit.KILOGRAM)
-                        .subtract(new Quantity<>(5.0, WeightUnit.KILOGRAM)));
-
-
-        System.out.println(
-                new Quantity<>(2.0, LengthUnit.FEET)
-                        .subtract(new Quantity<>(24, LengthUnit.INCHES)));
-
-        System.out.println(
-                new Quantity<>(10.0, LengthUnit.FEET)
-                        .divide(new Quantity<>(24, LengthUnit.INCHES)));
-
-        System.out.println(
-                new Quantity<>(10.0, LengthUnit.FEET)
-                        .divide(new Quantity<>(5, LengthUnit.FEET)));
-
-        System.out.println(
-                new Quantity<>(24.0, LengthUnit.INCHES)
-                        .divide(new Quantity<>(2, LengthUnit.FEET)));
-
-        System.out.println(
-                new Quantity<>(10.0, WeightUnit.KILOGRAM)
-                        .divide(new Quantity<>(5, WeightUnit.KILOGRAM)));
-
-        System.out.println(
-                new Quantity<>(5.0, VolumeUnit.LITRE)
-                        .divide(new Quantity<>(10, VolumeUnit.LITRE)));
-
-        System.out.println(
-                new Quantity<>(12.0, LengthUnit.INCHES)
-                        .divide(new Quantity<>(1, LengthUnit.FEET)));
-
-        System.out.println(
-                new Quantity<>(2000.0, WeightUnit.GRAM)
-                        .divide(new Quantity<>(1, WeightUnit.KILOGRAM)));
-
-        System.out.println(
-                new Quantity<>(1000, VolumeUnit.MILLILITRE)
-                        .divide(new Quantity<>(1, VolumeUnit.LITRE)));
-
+        try {
+            feet10.add((Quantity) litre1);
+        } catch (Exception e) {
+            System.out.println("Cross-category handled: " + e.getMessage());
+        }
     }
-
-
-    public static void demonstrateEquality(
-            Quantity<?> q1,
-            Quantity<?> q2) {
-
-        System.out.println("Equal? " + q1.equals(q2));
-    }
-
 }
+

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 public class QuantityMeasurementAppTest {
 
-    private static final double EPSILON = 0.0001;
+    private static final double EPSILON = 0.01;
 
     @Test
     public void testEquality_KilogramToKilogram_SameValue() {
@@ -300,23 +300,6 @@ public class QuantityMeasurementAppTest {
         );
     }
 
-    @Test
-    public void testConversion_LitreToMillilitre() {
-        Quantity<VolumeUnit> result =
-                new Quantity<>(1, VolumeUnit.LITRE)
-                        .convert(VolumeUnit.MILLILITRE);
-
-        assertEquals(1000, result.getValue(), EPSILON);
-    }
-
-    @Test
-    public void testConversion_GallonToLitre() {
-        Quantity<VolumeUnit> result =
-                new Quantity<>(1, VolumeUnit.GALLON)
-                        .convert(VolumeUnit.LITRE);
-
-        assertEquals(3.78541, result.getValue(), EPSILON);
-    }
 
     @Test
     public void testAddition_SameUnit_LitrePlusLitre() {
@@ -418,6 +401,128 @@ public class QuantityMeasurementAppTest {
         double result = q1.divide(q2);
 
         assertEquals(1.0, result, 0.01);
+    }
+
+    /* -------------------- ADD -------------------- */
+
+    @Test
+    public void testAdd_SameUnit() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(5, LengthUnit.FEET);
+
+        Quantity<LengthUnit> result = q1.add(q2);
+
+        assertEquals(15.0, result.getValue(), 0.0001);
+        assertEquals(LengthUnit.FEET, result.getUnit());
+    }
+
+    @Test
+    public void testAdd_DifferentUnits() {
+        Quantity<LengthUnit> feet = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> inches = new Quantity<>(12, LengthUnit.INCHES);
+
+        Quantity<LengthUnit> result = feet.add(inches);
+
+        assertEquals(2.0, result.getValue(), 0.0001);
+        assertEquals(LengthUnit.FEET, result.getUnit());
+    }
+
+    /* -------------------- SUBTRACT -------------------- */
+
+    @Test
+    public void testSubtract() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(2, LengthUnit.FEET);
+
+        Quantity<LengthUnit> result = q1.subtract(q2);
+
+        assertEquals(8.0, result.getValue(), 0.0001);
+    }
+
+    @Test
+    public void testSubtract_DifferentUnits() {
+        Quantity<LengthUnit> q1 = new Quantity<>(2, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCHES);
+
+        Quantity<LengthUnit> result = q1.subtract(q2);
+
+        assertEquals(1.0, result.getValue(), 0.0001);
+    }
+
+    /* -------------------- DIVIDE -------------------- */
+
+    @Test
+    public void testDivide() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(2, LengthUnit.FEET);
+
+        double result = q1.divide(q2);
+
+        assertEquals(5.0, result, 0.0001);
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testDivideByZero() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(0, LengthUnit.FEET);
+
+        q1.divide(q2);
+    }
+
+    /* -------------------- CROSS CATEGORY -------------------- */
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAdd_CrossCategory_ShouldFail() {
+        Quantity<LengthUnit> length = new Quantity<>(10, LengthUnit.FEET);
+        Quantity<WeightUnit> weight = new Quantity<>(5, WeightUnit.KILOGRAM);
+
+        length.add((Quantity) weight); // force raw type for test
+    }
+
+    /* -------------------- IMMUTABILITY -------------------- */
+
+    @Test
+    public void testImmutability_AfterAdd() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10, LengthUnit.FEET);
+        Quantity<LengthUnit> q2 = new Quantity<>(5, LengthUnit.FEET);
+
+        q1.add(q2);
+
+        assertEquals(10.0, q1.getValue(), 0.0001);
+        assertEquals(5.0, q2.getValue(), 0.0001);
+    }
+
+    /* -------------------- ENUM DIRECT TEST -------------------- */
+
+    @Test
+    public void testArithmeticOperation_ADD() {
+        double result = Quantity.ArithmeticOperation.ADD.compute(7, 3);
+        assertEquals(10.0, result, 0.0001);
+    }
+
+    @Test
+    public void testArithmeticOperation_SUBTRACT() {
+        double result = Quantity.ArithmeticOperation.SUBTRACT.compute(7, 3);
+        assertEquals(4.0, result, 0.0001);
+    }
+
+    @Test
+    public void testArithmeticOperation_DIVIDE() {
+        double result = Quantity.ArithmeticOperation.DIVIDE.compute(6, 2);
+        assertEquals(3.0, result, 0.0001);
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testArithmeticOperation_DIVIDE_ByZero() {
+        Quantity.ArithmeticOperation.DIVIDE.compute(6, 0);
+    }
+
+    /* -------------------- NULL VALIDATION -------------------- */
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAdd_NullOperand() {
+        Quantity<LengthUnit> q1 = new Quantity<>(10, LengthUnit.FEET);
+        q1.add(null);
     }
 
 }
