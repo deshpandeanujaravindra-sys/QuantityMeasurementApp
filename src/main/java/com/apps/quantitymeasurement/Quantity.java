@@ -30,21 +30,22 @@ public class Quantity<U extends IMeasureable> {
     }
 
 
-    private void validateArithmeticOperands(Quantity<U> other,
-                                            U targetUnit,
-                                            boolean targetUnitRequired) {
+    private void validateArithmeticOperands(Quantity<U> other) {
 
-        if (other == null)
-            throw new IllegalArgumentException("Other quantity cannot be null");
+        if (!this.unit.supportsArithmetic().isSupported() ||
+                !other.unit.supportsArithmetic().isSupported()) {
+
+            throw new UnsupportedOperationException(
+                    "Arithmetic operation not supported for this unit"
+            );
+        }
 
         if (!this.unit.getClass().equals(other.unit.getClass()))
             throw new IllegalArgumentException("Cross-category operation not allowed");
 
-        if (!Double.isFinite(other.value))
-            throw new IllegalArgumentException("Value must be finite");
-
-        if (targetUnitRequired && targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
+        if (!this.unit.supportsArithmetic().isSupported() || !other.unit.supportsArithmetic().isSupported())
+            throw new UnsupportedOperationException(
+                    "Arithmetic not supported for this measurement type");
     }
 
     /* Core Helper Method */
@@ -70,7 +71,7 @@ public class Quantity<U extends IMeasureable> {
 
     // ADD (explicit target unit)
     public Quantity<U> add(Quantity<U> other, U targetUnit) {
-        validateArithmeticOperands(other, targetUnit, true);
+        validateArithmeticOperands(other);
 
         double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
         double converted = targetUnit.convertFromBaseUnit(baseResult);
@@ -85,7 +86,7 @@ public class Quantity<U extends IMeasureable> {
 
     // SUBTRACT (explicit target unit)
     public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
-        validateArithmeticOperands(other, targetUnit, true);
+        validateArithmeticOperands(other);
 
         double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
         double converted = targetUnit.convertFromBaseUnit(baseResult);
@@ -93,9 +94,9 @@ public class Quantity<U extends IMeasureable> {
         return new Quantity<>(roundToTwoDecimals(converted), targetUnit);
     }
 
-    // DIVIDE (returns scalar)
+    // DIVIDE
     public double divide(Quantity<U> other) {
-        validateArithmeticOperands(other, null, false);
+        validateArithmeticOperands(other);
 
         return performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
     }

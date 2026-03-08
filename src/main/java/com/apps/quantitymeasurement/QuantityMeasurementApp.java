@@ -1,104 +1,119 @@
 package com.apps.quantitymeasurement;
 
-public class QuantityMeasurementApp{
+public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
+        System.out.println("========= SUBTRACTION (Implicit Target Unit) =========");
 
-        Quantity<LengthUnit> feet10 =
-                new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> feet10 = new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> inches6 = new Quantity<>(6.0, LengthUnit.INCHES);
 
-        Quantity<LengthUnit> inch24 =
-                new Quantity<>(24.0, LengthUnit.INCHES);
+        System.out.println("Input: 10 FEET - 6 INCH");
+        System.out.println("Output: " + feet10.subtract(inches6));
 
-        Quantity<LengthUnit> feet2 =
-                new Quantity<>(2.0, LengthUnit.FEET);
+        Quantity<VolumeUnit> litre5 = new Quantity<>(5.0, VolumeUnit.LITRE);
+        Quantity<VolumeUnit> ml500 = new Quantity<>(500.0, VolumeUnit.MILLILITRE);
 
-        Quantity<LengthUnit> feet5 =
-                new Quantity<>(5.0, LengthUnit.FEET);
-
-        Quantity<LengthUnit> feet10b =
-                new Quantity<>(10.0, LengthUnit.FEET);
-
-        // ADD
-        System.out.println("10 ft + 24 in = " +
-                feet10.add(inch24));
-
-        System.out.println("10 ft + 24 in (in YARD) = " +
-                feet10.add(inch24, LengthUnit.YARDS));
-
-        // SUBTRACT
-        System.out.println("10 ft - 24 in = " +
-                feet10.subtract(inch24));
-
-        // DIVISION CASES
-        System.out.println("10 ft / 2 ft = " +
-                feet10.divide(feet2) + "  (Ratio > 1)");
-
-        System.out.println("5 ft / 10 ft = " +
-                feet5.divide(feet10) + "  (Ratio < 1)");
-
-        System.out.println("10 ft / 10 ft = " +
-                feet10.divide(feet10b) + "  (Ratio = 1)");
-
-        // EQUALITY
-        Quantity<LengthUnit> oneFoot =
-                new Quantity<>(1.0, LengthUnit.FEET);
-
-        Quantity<LengthUnit> twelveInch =
-                new Quantity<>(12.0, LengthUnit.INCHES);
-
-        System.out.println("1 ft equals 12 in ? " +
-                oneFoot.equals(twelveInch));
+        System.out.println("Input: 5 LITRE - 500 MILLILITRE");
+        System.out.println("Output: " + litre5.subtract(ml500));
 
 
-        /*
-           VOLUME OPERATIONS
-            */
-        System.out.println("\n---- VOLUME OPERATIONS ----");
+        System.out.println("\n========= SUBTRACTION (Explicit Target Unit) =========");
 
-        Quantity<VolumeUnit> litre1 =
-                new Quantity<>(1.0, VolumeUnit.LITRE);
+        System.out.println("Input: 10 FEET - 6 INCH (INCH)");
+        System.out.println("Output: " +
+                feet10.subtract(inches6, LengthUnit.INCHES));
 
-        Quantity<VolumeUnit> ml1000 =
-                new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+        Quantity<WeightUnit> kg10 = new Quantity<>(10.0, WeightUnit.KILOGRAM);
+        Quantity<WeightUnit> g5000 = new Quantity<>(5000.0, WeightUnit.GRAM);
 
-        Quantity<VolumeUnit> gallon1 =
-                new Quantity<>(1.0, VolumeUnit.GALLON);
-
-        System.out.println("1 L equals 1000 mL ? " +
-                litre1.equals(ml1000));
-
-        System.out.println("1 gallon in litre = " +
-                gallon1.add(new Quantity<>(0, VolumeUnit.LITRE)));
+        System.out.println("Input: 10 KG - 5000 GRAM (GRAM)");
+        System.out.println("Output: " +
+                kg10.subtract(g5000, WeightUnit.GRAM));
 
 
+        System.out.println("\n========= SUBTRACTION (Negative Result) =========");
 
-        System.out.println("\n---- WEIGHT OPERATIONS ----");
+        Quantity<LengthUnit> feet5 = new Quantity<>(5.0, LengthUnit.FEET);
+        Quantity<LengthUnit> feet10b = new Quantity<>(10.0, LengthUnit.FEET);
 
-        Quantity<WeightUnit> kg1 =
-                new Quantity<>(1.0, WeightUnit.KILOGRAM);
-
-        Quantity<WeightUnit> gm1000 =
-                new Quantity<>(1000.0, WeightUnit.GRAM);
-
-        System.out.println("1 kg equals 1000 gm ? " +
-                kg1.equals(gm1000));
+        System.out.println("Input: 5 FEET - 10 FEET");
+        System.out.println("Output: " + feet5.subtract(feet10b));
 
 
-        System.out.println("\n---- EXCEPTION HANDLING ----");
+        System.out.println("\n========= SUBTRACTION (Zero Result) =========");
+
+        Quantity<LengthUnit> feet10c = new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> inches120 = new Quantity<>(120.0, LengthUnit.INCHES);
+
+        System.out.println("Input: 10 FEET - 120 INCH");
+        System.out.println("Output: " + feet10c.subtract(inches120));
+
+
+        System.out.println("\n========= DIVISION =========");
+
+        Quantity<LengthUnit> tenFeet = new Quantity<>(10.0, LengthUnit.FEET);
+        Quantity<LengthUnit> twoFeet = new Quantity<>(2.0, LengthUnit.FEET);
+
+        System.out.println("Input: 10 FEET / 2 FEET");
+        System.out.println("Output: " + tenFeet.divide(twoFeet));
+
+        System.out.println("Input: 5 FEET / 10 FEET");
+        System.out.println("Output: " +
+                new Quantity<>(5.0, LengthUnit.FEET)
+                        .divide(new Quantity<>(10.0, LengthUnit.FEET)));
+
+        System.out.println("Input: 24 INCH / 2 FEET");
+        System.out.println("Output: " +
+                new Quantity<>(24.0, LengthUnit.INCHES)
+                        .divide(new Quantity<>(2.0, LengthUnit.FEET)));
+
+
+        System.out.println("\n========= CROSS CATEGORY ERROR =========");
 
         try {
-            feet10.divide(new Quantity<>(0.0, LengthUnit.FEET));
+            Quantity<WeightUnit> kg5 = new Quantity<>(5.0, WeightUnit.KILOGRAM);
+            tenFeet.subtract((Quantity) kg5);
         } catch (Exception e) {
-            System.out.println("Division by zero handled: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
 
+
+        System.out.println("\n========= DIVIDE BY ZERO =========");
+
         try {
-            feet10.add((Quantity) litre1);
+            tenFeet.divide(new Quantity<>(0.0, LengthUnit.FEET));
         } catch (Exception e) {
-            System.out.println("Cross-category handled: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+
+
+        System.out.println("\n========= UC14 ARITHMETIC SUPPORT CHECK =========");
+
+        try {
+            Quantity<TemperatureuUnit> temp1 =
+                    new Quantity<>(30.0, TemperatureuUnit.CELSIUS);
+
+            Quantity<TemperatureuUnit> temp2 =
+                    new Quantity<>(20.0, TemperatureuUnit.CELSIUS);
+
+            System.out.println(temp1.subtract(temp2));
+        } catch (Exception e) {
+            System.out.println("Arithmetic Not Supported: " + e.getMessage());
+        }
+
+        System.out.println("\n========= APPLICATION COMPLETED =========");
+
+
+        Quantity<TemperatureuUnit> length1 = new Quantity<>(0.0, TemperatureuUnit.CELSIUS);
+        Quantity<TemperatureuUnit> length2 = new Quantity<>(32.0, TemperatureuUnit.FAHRENHEIT);
+
+        System.out.println("0 Celsius== 32 Fahrenheit: " + length1.equals(length2));
+
+        Quantity<TemperatureuUnit> length3 = new Quantity<>(0.0, TemperatureuUnit.CELSIUS);
+        Quantity<TemperatureuUnit> length4 = new Quantity<>(273.15, TemperatureuUnit.KELVIN);
+
+        System.out.println(" " + length3.equals(length4));
     }
 }
-

@@ -27,4 +27,5 @@ public enum LengthUnit implements IMeasureable {
     public double convertFromBaseUnit(double baseValue){
         return baseValue / getConversionFactor();
     }
+
 }
